@@ -1,0 +1,139 @@
+<%-include("partials/pheader")-%>
+<link rel="stylesheet" href="/css/complete.css">
+    <div class="details" id="complete">
+        <div class="headx">
+            <h1> Completed Tasks </h1>
+        </div>
+        <div class="graphBox">
+            <div class="box">
+                <h2>Dates completed on : </h2>
+                <canvas id="myDaily"></canvas>
+            </div>
+        </div>
+        <div class="recent">
+            <div class="cardHeader">
+                <h2>Completed Tasks</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="padding-bottom: 30px !important;">Name</th>
+                        <th style="padding-bottom: 30px !important;">Category</th>
+                        <th style="padding-bottom: 30px !important;">Deadline Date</th>
+                        <th style="padding-bottom: 30px !important;">Deadline Time</th>
+                        <th style="padding-bottom: 30px !important;">Completed Date</th>
+                        <th style="padding-bottom: 30px !important;">Completed Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <br>
+                    <% for (var i=0; i < completex.length; i++) { %>
+                        <tr class="earn">
+                            <td style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; padding-top: 1em;
+    padding-bottom: 1em;">
+                                <%=completex[i].name %>
+                            </td>
+                            <td style="padding-top: 1em;
+    padding-bottom: 1em;">
+                                <%=completex[i].category %>
+                            </td>
+                            <td style="padding-top: 1em;
+    padding-bottom: 1em;"> 
+                                <%=dx[i].date%>
+                            </td>
+                            <td style="padding-top: 1em;
+    padding-bottom: 1em;">
+                                <%=dx[i].time%>
+                            </td>
+                            <td style="padding-top: 1em;
+    padding-bottom: 1em;">
+                                <%=compx[i].date %>
+                            </td>
+                            <td style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; padding-top: 1em;
+    padding-bottom: 1em;">
+                                <%=compx[i].time %>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        let dx = '<%=dxs%>';
+        dx = dx.replace(/&#34;/gi, '\"');
+        dx = JSON.parse(dx);
+        let compx = '<%=compxs%>';
+        compx = compx.replace(/&#34;/gi, '\"');
+        compx = JSON.parse(compx);
+        let dates = [],dta = [],ldta = [];
+        let mnm = new Map(),nmn = new Map();
+        let x;
+        for(let i = 0;i<dx.length;i++){
+            x = new Date(dx[i].date).toISOString();
+            nmn.set(x, nmn.get(x) == undefined ? 1 : parseInt(parseInt(nmn.get(x)) + 1));
+        }
+        for(let i = 0;i<compx.length;i++){
+            x = new Date(compx[i].date).toISOString();
+            mnm.set(x, mnm.get(x) == undefined ? 1 : parseInt(parseInt(mnm.get(x)) + 1));
+        }
+        console.log(nmn);
+        console.log(mnm);
+        nmn.forEach(function (value, key) {
+                // console.log(key + " "+ value);
+                x = dates.includes(key);
+                if(x == false)
+                    dates.push(key);
+        });
+        mnm.forEach(function (value, key) {
+                x = dates.includes(key);
+                if (x == false)
+                    dates.push(key);
+        });
+        dates = dates.sort();
+        console.log(dates);
+        dates.forEach(function(key){
+            if(nmn.get(key) == undefined)
+                ldta.push(0);
+            else
+                ldta.push(nmn.get(key));
+            if (mnm.get(key) == undefined)
+                dta.push(0);
+            else
+                dta.push(mnm.get(key));
+        });
+        console.log(ldta);
+        console.log(dta)
+        console.log(dates);
+        let datex = [];
+        for(let i = 0;i<dates.length;i++){
+            datex.push(new Date(dates[i]).toLocaleDateString());
+        }
+        const ctx = document.getElementById('myDaily');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: datex,
+                    datasets: [{
+                        label: 'Task Completed On',
+                        data: dta,
+                        borderWidth: 3,
+                        borderColor : '#07ad47',
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Task Deadline',
+                        data: ldta,
+                        borderWidth: 3,
+                        borderColor : '#ce1313',
+                        fill: false,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                }
+            });
+    </script>
+<%-include("partials/pfooter")-%>

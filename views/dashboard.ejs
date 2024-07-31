@@ -1,0 +1,131 @@
+<%- include("partials/pheader") -%>
+<link rel="stylesheet" href="/css/dashboard.css">
+<section class="details">
+    <div class="headx">
+        <h1> Dashboard </h1>
+    </div>
+    <div class="recent">
+        <div class="cardHeader">
+            <h2>Upcoming Tasks</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="padding-bottom: 30px !important;">Name</th>
+                    <th style="padding-bottom: 30px !important;">Category</th>
+                    <th style="padding-bottom: 30px !important;">Deadline Date</th>
+                    <th style="padding-bottom: 30px !important;">Deadline Time</th>
+                    <th style="padding-bottom: 30px !important;">Timer</th>
+                    <th style="padding-bottom: 30px !important;">Complete</th>
+                    <th style="padding-bottom: 30px !important;">Update</th>
+                    <th style="padding-bottom: 30px !important;">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i=0; i < upx.length; i++) { %>
+                    <div class="uprow">
+                        <tr class="earn">
+                            <td style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+                                <%=upx[i].name %>
+                            </td>
+                            <td>
+                                <%=upx[i].category %>
+                            </td>
+                            <td>
+                                <%=upnx[i].first %>
+                            </td>
+                            <td>
+                                <%=upnx[i].second %>
+                            </td>
+                            <td>
+                                <div class="countdown-timer" data-name="<%=upx[i].name%>" data-deadline="<%= upx[i].deadline %>"></div>
+                            </td>
+                            <td>
+                                <form style="padding: 0%;" action="/dashboard/completed" method="post">
+                                    <input type="hidden" name="taskId" value="<%= upx[i]._id%>">
+                                    <button type="submit" class="cbutton">Complete</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form style="padding: 0%;" action="/dashboard/updatetask" method="post">
+                                    <input type="hidden" name="taskId" value="<%= upx[i]._id%>">
+                                    <button type="submit" class="ubutton">Update</button>
+                                </form>
+                            </td>
+                            <td style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
+                                <form style="padding: 0%;" action="/dashboard/delete" method="post">
+                                    <input type="hidden" name="taskId" value="<%= upx[i]._id%>">
+                                    <button type="submit" class="dbutton">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </div>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>
+    <div class="recent">
+        <div class="cardHeader">
+            <h2>Late Tasks</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="padding-bottom: 30px !important;">Name</th>
+                    <th style="padding-bottom: 30px !important;">Category</th>
+                    <th style="padding-bottom: 30px !important;">Deadline Date</th>
+                    <th style="padding-bottom: 30px !important;">Deadline Time</th>
+                    <th style="padding-bottom: 30px !important;">Timer</th>
+                    <th style="padding-bottom: 30px !important;">Completed</th>
+                    <th style="padding-bottom: 30px !important;">Update</th>
+                    <th style="padding-bottom: 30px !important;">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i=0; i < latx.length; i++) { %>
+                    <div class="larow">
+                        <tr class="expn">
+                            <td style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;"> 
+                                <%=latx[i].name %>
+                            </td>
+                            <td>
+                                <%=latx[i].category %>
+                            </td>
+                            <td>
+                                <%=latnx[i].first %>
+                            </td>
+                            <td>
+                                <%=latnx[i].second %>
+                            </td>
+                            <td>
+                                Deadline Passed
+                            </td>
+                            <td>
+                                <form style="padding: 0%;" action="/dashboard/completed" method="post">
+                                    <input type="hidden" name="taskId" value="<%= latx[i]._id%>">
+                                    <button type="submit" class="cbutton">Complete</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form style="padding: 0%;" action="/dashboard/updatetask" method="post">
+                                    <input type="hidden" name="taskId" value="<%= latx[i]._id%>">
+                                    <button type="submit" class="ubutton" >Update</button>
+                                </form>
+                            </td>
+                            <td style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; padding: auto;">
+                                <form style="padding: 0%;" action="/dashboard/delete" method="post">
+                                    <input type="hidden" name="taskId" value="<%= latx[i]._id%>">
+                                    <button type="submit" class="dbutton" >Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </div>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- <a class="button" href="/logout" role="button">Log Out</a> -->
+<%- include("partials/pfooter") -%>

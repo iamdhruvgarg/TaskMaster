@@ -1,0 +1,43 @@
+<footer id="footer">
+
+    <i class="fa-brands fa-twitter fa-2xl"></i>
+    <i class="fa-brands fa-facebook fa-2xl"></i>
+    <i class="fa-brands fa-square-instagram fa-2xl"></i>
+    <i class="fa-solid fa-envelope fa-2xl"></i>
+    <p style="height: 2rem; color: beige;">© Copyright 2023 Task Master</p>
+
+</footer>
+
+<!-- common-javascripts -->
+<script>
+    let list = document.querySelectorAll('.pnavigation li');
+    function activatelink(){
+        list.forEach((item) =>
+        item.classList.remove('hovered'));
+        this.classList.add('hovered');
+    }
+    list.forEach((item)=>
+    item.addEventListener('mouseover',activatelink));
+
+    let toggle = document.querySelector('.ptoggle');
+    let navigation = document.querySelector('.pnavigation');
+    let body = document.querySelector('body');
+
+    toggle.onclick = function(){
+        navigation.classList.toggle('active');
+        body.classList.toggle('active');
+    }
+    let str = '<%=puser%>';
+        //console.log(str);
+    let str2 = str.replace(/&#34;/gi, '\"');
+        // console.log(str2);
+    const uobj = JSON.parse(str2);
+    console.log(uobj);
+    // document.getElementById('pemail').innerHTML = "<h2> " + uobj.email +" </h2>";
+    
+
+</script>
+<script src="/javascript/script.js"></script>
+</body>
+
+</html>
